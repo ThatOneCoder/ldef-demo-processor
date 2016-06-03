@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://camel.apache.org/schema/spring
+            http://camel.apache.org/schema/spring/camel-spring.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- enable Spring @Component scan -->
+    <context:component-scan base-package="hl7integration.camel"/>
+
+    <!-- allows the properties to be read -->
+    <bean id="properties" class="org.apache.camel.component.properties.PropertiesComponent">
+        <property name="location" value="classpath:endpoint.properties"/>
+    </bean>
+
+    <!-- defines the hl7 codec; both ends of the port must use the same codec -->
+    <bean id="hl7codec" class="org.apache.camel.component.hl7.HL7MLLPCodec">
+        <property name="charset" value="iso-8859-1"/>
+    </bean>
+
+    <camelContext xmlns="http://camel.apache.org/schema/spring" id="camelContext">
+        <contextScan/>
+
+        <!-- configure the server/port in the endpoint.properties file  -->
+        <camel:endpoint id="mllpport"
+                        uri="mina:tcp://{{endpoint.server}}:{{endpoint.port}}?sync=true&amp;codec=#hl7codec"/>
+    </camelContext>
+</beans>
