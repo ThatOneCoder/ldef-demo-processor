@@ -30,7 +30,11 @@ public class Processor {
     public String dequeueMessage(Message in) throws Exception {
 
         ActiveMQConsumer activeMQConsumer = new ActiveMQConsumer("", "", "");
-        String activemqUri = activeMQConsumer.getPropValues("activemq-uri");
+
+        String activemqHost = (System.getenv("ACTIVEMQ_SERVICE_HOST")== null) ? getPropValues("activemq-host") : System.getenv("ACTIVEMQ_SERVICE_HOST");
+        String activemqPort = (System.getenv("ACTIVEMQ_SERVICE_PORT")== null) ? getPropValues("activemq-port") : System.getenv("ACTIVEMQ_SERVICE_PORT");
+        String activemqUri = "tcp://" + activemqHost + ":" + activemqPort;
+
         ActiveMQConsumer consumer = new ActiveMQConsumer(activemqUri, "admin", "admin");
         String msg;
 //            consumer.startReceiving("demo.queue");

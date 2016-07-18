@@ -27,6 +27,6 @@
 
         <!-- configure the server/port in the endpoint.properties file  -->
         <camel:endpoint id="mllpport"
-                        uri="mina:tcp://{{endpoint.server}}:{{endpoint.port}}?sync=true&amp;codec=#hl7codec"/>
+                        uri="mina:tcp://${env:VALIDATOR_SERVICE_HOST}:${env:VALIDATOR_SERVICE_HOST}?sync=true&amp;codec=#hl7codec"/>
     </camelContext>
 </beans>
