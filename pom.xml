@@ -188,7 +188,7 @@
                 <artifactId>camel-maven-plugin</artifactId>
                 <version>${camel.version}</version>
                 <configuration>
-                    <applicationContextUri>meta-inf/spring/*.xml</applicationContextUri>
+                    <applicationContextUri>META-INF/spring/*.xml</applicationContextUri>
                 </configuration>
             </plugin>
 
