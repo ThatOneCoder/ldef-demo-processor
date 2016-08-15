@@ -111,27 +111,10 @@ public class Processor {
 
     public void recordMessage(String msg, String status) throws Exception {
         java.util.Date date = new java.util.Date();
-
-        // create cluster
-//        Cluster cluster;
-//
-//        // create session
-//        Session session = null;
-//
-//        String cassandraIp = getPropValues("cassandra-ip");
-//        String keyspace = getPropValues("cassandra-keyspace");
-
-        String mongoIp = getPropValues("mongo-ip");
-//
-//        cluster = Cluster.builder().addContactPoint(cassandraIp).build();
-////        cluster = Cluster.builder().addContactPoint("10.32.227.87").build();
-//        session = cluster.connect(keyspace);
-////        cluster = Cluster.builder().addContactPoint("10.32.227.87").build();
-////        System.out.println("connected to keyspace " + keyspace + " at IP " + cassandraIp);
-
+        String mongoIp = (System.getenv("MONGODB_SERVICE_HOST")== null) ? getPropValues("mongo-ip") : System.getenv("MONGODB_SERVICE_HOST");
 
         // create mongo client
-        MongoClient mongo = new MongoClient(mongoIp, 27017);
+        MongoClient mongo = new MongoClient( mongoIp , 27017 );
 
         // get mongo db
         DB db = mongo.getDB("ldef_hl7_demo");
